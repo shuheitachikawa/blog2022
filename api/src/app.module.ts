@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PostsModule } from 'src/posts/posts.module';
-const ormConfig = require('../ormconfig');
+import { ormconfig } from 'src/config/ormconfig';
 
 @Module({
-  imports: [PostsModule, TypeOrmModule.forRoot(ormConfig)],
+  imports: [PostsModule, TypeOrmModule.forRoot(ormconfig)],
   controllers: [],
   providers: [],
 })

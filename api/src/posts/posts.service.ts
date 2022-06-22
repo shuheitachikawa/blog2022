@@ -2,11 +2,15 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreatePostDto } from './dto/create-post.dto';
 import { PostStatus } from './post-status.enum';
 import { Post } from '../entities/post.entity';
-import { PostRepository } from './post.repository';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class PostsService {
-  constructor(private readonly postRepository: PostRepository) {}
+  constructor(
+    @InjectRepository(Post)
+    private readonly postRepository: Repository<Post>,
+  ) {}
 
   private posts: Post[] = [];
 
@@ -23,7 +27,19 @@ export class PostsService {
   }
 
   async create(createPostDto: CreatePostDto): Promise<Post> {
-    return await this.postRepository.createPost(createPostDto);
+    const { title, content, thumbnailUrl } = createPostDto;
+
+    const post = await this.postRepository.save({
+      title,
+      content,
+      thumbnailUrl,
+      status: PostStatus.PUBLISHED,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      publishedAt: new Date().toISOString(),
+    });
+
+    return post;
   }
 
   updateStatus(id: Post['id']): Post {
