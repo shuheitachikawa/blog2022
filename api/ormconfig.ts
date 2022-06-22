@@ -1,5 +1,5 @@
 
-module.exports = {
+const options = {
   type: 'mysql',
   host: 'db',
   port: 3306,
@@ -13,3 +13,5 @@ module.exports = {
     migrationsDir: 'src/migrations',
   },
 };
+
+module.exports = options
