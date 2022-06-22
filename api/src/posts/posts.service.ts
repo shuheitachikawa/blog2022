@@ -14,12 +14,16 @@ export class PostsService {
 
   private posts: Post[] = [];
 
-  findAll(): Post[] {
-    return this.posts;
+  async findAll(): Promise<Post[]> {
+    return await this.postRepository.find();
   }
 
-  findById(id: Post['id']): Post {
-    const found = this.posts.find((post) => post.id === id);
+  async findById(id: Post['id']): Promise<Post> {
+    const found = await this.postRepository.findOne({
+      where: {
+        id,
+      },
+    });
 
     if (!found) throw new NotFoundException();
 
@@ -29,7 +33,7 @@ export class PostsService {
   async create(createPostDto: CreatePostDto): Promise<Post> {
     const { title, content, thumbnailUrl } = createPostDto;
 
-    const post = await this.postRepository.save({
+    const post = this.postRepository.create({
       title,
       content,
       thumbnailUrl,
@@ -39,17 +43,27 @@ export class PostsService {
       publishedAt: new Date().toISOString(),
     });
 
+    await this.postRepository.save(post);
+
     return post;
   }
 
-  updateStatus(id: Post['id']): Post {
-    const item = this.posts.find((post) => post.id === id);
-    item.status = PostStatus.DRAFT;
+  async update(id: Post['id']): Promise<Post> {
+    const item = await this.postRepository.findOne({
+      where: {
+        id,
+      },
+    });
 
-    return item;
+    const updated: Post = {
+      ...item,
+      title: 'iiiii'
+    }
+
+    return await this.postRepository.save(updated);
   }
 
-  delete(id: Post['id']): void {
-    this.posts = this.posts.filter((post) => post.id !== id);
+  async delete(id: Post['id']): Promise<void> {
+    await this.postRepository.delete(id);
   }
 }

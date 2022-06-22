@@ -18,13 +18,13 @@ export class PostsController {
   constructor(private readonly postsService: PostsService) {}
 
   @Get()
-  findAll(): PostEntity[] {
-    return this.postsService.findAll();
+  async findAll(): Promise<PostEntity[]> {
+    return await this.postsService.findAll();
   }
 
   @Get(':id') // :をつけることでnestが可変パラメータと認識する
-  findById(@Param('id', ParseUUIDPipe) id: string): PostEntity {
-    return this.postsService.findById(id);
+  async findById(@Param('id', ParseUUIDPipe) id: string): Promise<PostEntity> {
+    return await this.postsService.findById(id);
   }
 
   @Post()
@@ -35,12 +35,12 @@ export class PostsController {
   }
 
   @Patch(':id')
-  updateStatus(@Param('id', ParseUUIDPipe) id: string): PostEntity {
-    return this.postsService.updateStatus(id);
+  async update(@Param('id', ParseUUIDPipe) id: string): Promise<PostEntity> {
+    return await this.postsService.update(id);
   }
 
   @Delete(':id')
-  delete(@Param('id', ParseUUIDPipe) id: string): void {
+  async delete(@Param('id', ParseUUIDPipe) id: string): Promise<void> {
     return this.postsService.delete(id);
   }
 }
