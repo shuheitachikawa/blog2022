@@ -10,8 +10,4 @@ export const ormconfig: DataSourceOptions = {
   entities: ['dist/entities/*.entity.js'],
   migrations: ['dist/migrations/*.js'],
   synchronize: false,
-  // cli: {
-  //   entitiesDir: 'src/entities',
-  //   migrationsDir: 'src/migrations',
-  // },
 };
