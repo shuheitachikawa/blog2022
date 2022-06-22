@@ -6,8 +6,9 @@ const options = {
   username: 'user',
   password: 'password',
   database: 'blog',
-  entities: ['dist/entities/*.entity.{ts,js}'],
-  migrations: ['dist/migrations/*.js'],
+  entities: [__dirname + 'dist/entities/*.entity.js'],
+  migrations: [__dirname + 'dist/migrations/*.js'],
+  synchronize: false,
   cli: {
     entitiesDir: 'src/entities',
     migrationsDir: 'src/migrations',
