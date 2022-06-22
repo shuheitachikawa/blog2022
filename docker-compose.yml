@@ -10,3 +10,13 @@ services:
       - "3000:3000"
     volumes:
       - ./api/:/app
+  db:
+    container_name: db
+    image: mysql:8.0
+    ports:
+      - '3306:3306'
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: blog
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
