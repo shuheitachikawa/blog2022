@@ -1,4 +1,4 @@
-import { PostStatus } from 'src/posts/post-status.enum';
+import { PostStatus } from '../posts/post-status.enum';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
