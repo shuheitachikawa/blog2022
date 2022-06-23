@@ -1,22 +1,35 @@
 version: "3.8"
 services:
+  # app:
+  #   build: ./wine-ai-client/.
+  #   volumes:
+  #     - ./wine-ai-client/:/app
+  #   ports:
+  #     - "8080:8080"
+  #   tty: true
+  #   working_dir: /app
+  #   command: npm run dev
   api:
     container_name: api
-    build:
-      context: .
-      dockerfile: ./api/Dockerfile
+    build: ./api/.
     tty: true
     ports:
       - "3000:3000"
     volumes:
       - ./api/:/app
+    links:
+      - db
   db:
     container_name: db
     image: mysql:8.0
     ports:
-      - '3306:3306'
+      - "3306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: blog
       MYSQL_USER: user
       MYSQL_PASSWORD: password
+      TZ: 'Asia/Tokyo'
+    volumes:
+      - ./docker/db/data:/var/lib/mysql
+      - ./docker/db/sql:/docker-entrypoint-initdb.d
