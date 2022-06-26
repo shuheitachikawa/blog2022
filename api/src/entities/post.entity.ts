@@ -1,5 +1,6 @@
 import { PostStatus } from '../posts/post-status.enum';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { User } from './user.entity';
 
 @Entity()
 export class Post {
@@ -26,4 +27,10 @@ export class Post {
 
   @Column({ comment: '公開日' })
   publishedAt: string;
+
+  @ManyToOne(() => User, (user) => user.posts)
+  user: User;
+
+  @Column()
+  userId: string;
 }
