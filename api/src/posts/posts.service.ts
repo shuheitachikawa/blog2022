@@ -1,9 +1,15 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreatePostDto } from './dto/create-post.dto';
 import { PostStatus } from './post-status.enum';
 import { Post } from '../entities/post.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { User } from 'entities';
+import { isNotEmpty } from 'class-validator';
 
 @Injectable()
 export class PostsService {
@@ -30,7 +36,7 @@ export class PostsService {
     return found;
   }
 
-  async create(createPostDto: CreatePostDto): Promise<Post> {
+  async create(createPostDto: CreatePostDto, user: User): Promise<Post> {
     const { title, content, thumbnailUrl } = createPostDto;
 
     const post = this.postRepository.create({
@@ -41,6 +47,7 @@ export class PostsService {
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
       publishedAt: new Date().toISOString(),
+      user,
     });
 
     await this.postRepository.save(post);
@@ -48,22 +55,31 @@ export class PostsService {
     return post;
   }
 
-  async update(id: Post['id']): Promise<Post> {
-    const item = await this.postRepository.findOne({
+  async update(id: Post['id'], user: User): Promise<Post> {
+    const post = await this.postRepository.findOne({
       where: {
         id,
       },
     });
 
-    const updated: Post = {
-      ...item,
-      title: 'iiiii'
+    if (user.id === post.userId) {
+      throw new BadRequestException('自分の商品を購入することはできません');
     }
+
+    const updated: Post = {
+      ...post,
+      title: 'iiiii',
+    };
 
     return await this.postRepository.save(updated);
   }
 
-  async delete(id: Post['id']): Promise<void> {
+  async delete(id: Post['id'], user): Promise<void> {
+    const post = await this.postRepository.findOne({ where: { id } });
+
+    if (post.userId !== user.id)
+      throw new BadRequestException('他人の商品を消せません');
+
     await this.postRepository.delete(id);
   }
 }
