@@ -1,5 +1,6 @@
 import { UserStatus } from 'auth/user-status.enum';
 import {
+  IsEmail,
   IsEnum,
   IsNotEmpty,
   IsString,
@@ -19,4 +20,7 @@ export class CreateUserDto {
 
   @IsEnum(UserStatus)
   status: UserStatus;
+
+  @IsEmail()
+  email: string;
 }
