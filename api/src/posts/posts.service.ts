@@ -17,8 +17,6 @@ export class PostsService {
     private readonly postRepository: Repository<Post>,
   ) {}
 
-  private posts: Post[] = [];
-
   async findAll(): Promise<Post[]> {
     return await this.postRepository.find();
   }
