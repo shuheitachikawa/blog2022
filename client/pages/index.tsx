@@ -8,7 +8,7 @@ import styles from "../styles/Home.module.css";
 const Home: NextPage = () => {
   useEffect(() => {
     const f = async () => {
-      const data = await axios.get("http://localhost:3000/posts");
+      const { data } = await axios.get("http://localhost:3000/posts");
       console.log(data);
     };
 
