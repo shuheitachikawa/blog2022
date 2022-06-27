@@ -16,6 +16,7 @@ export class User {
   @Column({ unique: true })
   @IsEmail({ message: 'Incorrect email' })
   @IsNotEmpty({ message: 'The email is required' })
+  @Exclude({ toPlainOnly: true })
   email: string;
 
   @Column({ comment: '可変の表示名' })
