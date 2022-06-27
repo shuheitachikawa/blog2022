@@ -19,6 +19,14 @@ services:
       - ./api/:/app
     links:
       - db
+  app:
+    build: ./client/.
+    volumes:
+      - ./client/:/usr/src/app/next
+    ports:
+      - "8080:8080"
+    tty: true
+    command: npm run dev
   db:
     container_name: db
     image: mysql:8.0
@@ -29,7 +37,7 @@ services:
       MYSQL_DATABASE: blog
       MYSQL_USER: user
       MYSQL_PASSWORD: password
-      TZ: 'Asia/Tokyo'
+      TZ: "Asia/Tokyo"
     volumes:
       - ./docker/db/data:/var/lib/mysql
       - ./docker/db/sql:/docker-entrypoint-initdb.d
