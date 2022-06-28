@@ -1,5 +1,5 @@
 import useSWR from "swr";
-import { api } from "lib/api/client";
+import { api } from "../lib/api/client";
 
 type SWRConfiguration = any;
 

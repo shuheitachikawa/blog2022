@@ -1,6 +1,5 @@
 /** @type {import('next').NextConfig} */
-
-const nextConfig = {
+module.exports = {
   reactStrictMode: true,
   env: {
     app_base_url: process.env.APP_BASE_URL,
@@ -18,5 +17,3 @@ const nextConfig = {
     domains: ["localhost"],
   },
 };
-
-module.exports = nextConfig;
