@@ -9,9 +9,9 @@ import styles from "../styles/Home.module.css";
 const Home: NextPage = () => {
   return (
     <div className="">
-      <div className="">blog</div>
+      <div className="font-bold">blog</div>
       <Link href="/dashboard">
-        <a>ダッシュボード</a>
+        <a className="text-red-400">ダッシュボード</a>
       </Link>
     </div>
   );
