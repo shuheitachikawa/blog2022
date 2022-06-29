@@ -1,21 +1,20 @@
-import axios from "axios";
+import { api } from "lib/api/client";
 import type { NextPage } from "next";
-import Head from "next/head";
-import Image from "next/image";
-import Link from "next/link";
-import { useEffect } from "react";
-import { useFetch } from "../../hooks";
-import styles from "../styles/Home.module.css";
+import { useRouter } from "next/router";
 
 const Dashboard: NextPage = () => {
-  const a = useFetch("/posts");
+  const router = useRouter();
 
-  console.log(a);
+  const handleGoNewPage = async () => {
+    const { data } = await api.get("/slug");
+
+    await router.push(`/articles/${data.slug}/edit`);
+  };
 
   return (
     <div className="">
       <div className="">dashborad</div>
-      <button>新規</button>
+      <button onClick={handleGoNewPage}>新規</button>
     </div>
   );
 };
